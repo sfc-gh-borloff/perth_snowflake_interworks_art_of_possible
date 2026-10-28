@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="snowflake-source" content="cortex-agent-authored">
+<title>Customer Event — Extended Hands-On: Build Brief</title>
+<script type="application/json" id="snowflake-report-metadata">
+{
+  "generated": "2026-10-20",
+  "intent": "Participant-facing brief for the 45-minute extended hands-on session at the InterWorks + Snowflake 'Art of the Possible' customer workshop, Perth, 29 Oct 2026, 10:45-11:30. Explicitly non-competitive: no judging, scoring, prize or submission. Three tracks are offered as optional starting points with 'build your own' given equal standing.",
+  "sections": [
+    { "id": "starting-point", "title": "Your starting point",
+      "producerNotes": "Assumes the Session 2 lab is complete: SUMMIT_GEAR_CO.SALES with DEALS (200 rows), SALES_CONVERSATIONS (150 rows), SALES_CALL_SEARCH service, deals semantic view, SUMMIT_GEAR_AGENT. AGENTS.md is NOT assumed — it is optional Module 7." },
+    { "id": "tracks", "title": "Three starting points",
+      "producerNotes": "AI function names should be re-verified against current Snowflake docs before the session; the brief directs participants to have CoCo look up current syntax rather than trusting the starter prompts verbatim." },
+    { "id": "own", "title": "Or build your own thing" },
+    { "id": "clock", "title": "How to spend the 45 minutes" },
+    { "id": "shares", "title": "Show us what you got working",
+      "producerNotes": "Voluntary 2-minute shares folded into the 11:30-12:00 wrap-up. Facilitators should line up 2-3 willing volunteers during the build rather than asking cold at 11:30. Session shortened from 60 to 45 minutes on 28 Oct 2026 (same 10:45 start, now finishing 11:30); the build timeline was rescaled 0-5 / 5-30 / 30-40 / 40-45, preserving the four-phase shape and protecting build time." }
+  ]
+}
+</script>
+<style>
+  :root { color-scheme: light dark; --navy:#0D2B45; --cyan:#29B5E8; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    max-width: 920px; width: 100%; margin: 0 auto;
+    padding: 0 clamp(16px, 4vw, 28px) 64px;
+    color: light-dark(#1f2937, #e5e7eb); background: light-dark(#ffffff, #0b1220); line-height: 1.6;
+  }
+  header.hero { background: var(--navy); color:#fff; margin: 0 calc(-1 * clamp(16px,4vw,28px)) 32px; padding: clamp(28px,6vw,48px) clamp(16px,4vw,28px); }
+  .eyebrow { font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--cyan); margin:0 0 12px; }
+  header.hero h1 { font-size:clamp(24px,5vw,34px); font-weight:800; margin:0 0 12px; color:#fff; line-height:1.2; }
+  header.hero p { margin:0 0 6px; color:rgba(255,255,255,0.85); font-size:15px; }
+  h2 { font-size:clamp(19px,3.6vw,23px); color:light-dark(var(--navy),#f1f5f9); margin:44px 0 6px; padding-top:14px; border-top:2px solid light-dark(#E5E7EB,#334155); }
+  h3 { font-size:15.5px; color:light-dark(#111827,#f1f5f9); margin:24px 0 6px; }
+  a { color: light-dark(#0b6fb3,#60a5fa); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:0.88em; background:light-dark(#F3F4F6,#1f2937); padding:1px 5px; border-radius:4px; }
+  pre { background:light-dark(#0D2B45,#111c2e); color:#E6F6FD; padding:16px; border-radius:8px; overflow-x:auto; font-size:12.5px; line-height:1.55; white-space:pre-wrap; word-break:break-word; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  pre code { background:none; padding:0; color:inherit; font-size:inherit; }
+  img, svg { max-width: 100%; height: auto; }
+  .callout { border-left:4px solid var(--cyan); background:light-dark(#F0FAFE,#10243a); padding:14px 16px; border-radius:0 8px 8px 0; margin:18px 0; font-size:14.5px; }
+  .warn { border-left-color:#D97706; background:light-dark(#FFFBEB,#2a2008); }
+  .stop { border-left-color:#DC2626; background:light-dark(#FEF2F2,#2b1111); }
+  .win { border-left-color:#059669; background:light-dark(#ECFDF5,#06251a); }
+  .callout strong:first-child { display:block; margin-bottom:4px; }
+  .track { border:1px solid light-dark(#E5E7EB,#334155); border-radius:12px; padding:20px; margin:18px 0; }
+  .track h3 { margin-top:0; font-size:18px; color:light-dark(var(--navy),#f1f5f9); }
+  .track .who { font-size:12.5px; color:light-dark(#6B7280,#9ca3af); font-style:italic; margin:0 0 12px; }
+  .track .fit { font-size:12.5px; color:light-dark(#059669,#34d399); font-weight:700; margin:0 0 12px; }
+  .table-wrap { overflow-x:auto; margin:18px 0; }
+  table { border-collapse:collapse; width:100%; font-size:14px; }
+  th, td { border:1px solid light-dark(#E5E7EB,#334155); padding:9px 12px; text-align:left; vertical-align:top; }
+  th { background:light-dark(#F3F4F6,#1f2937); font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+  td.w { white-space:nowrap; font-weight:700; color:var(--cyan); }
+  ol, ul { padding-left:22px; } li { margin:5px 0; }
+  .check { list-style:none; padding-left:0; }
+  .check li { padding-left:28px; position:relative; }
+  .check li::before { content:"\2610"; position:absolute; left:0; font-size:17px; color:var(--cyan); }
+  .clock { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin:18px 0; }
+  .clock div { border:1px solid light-dark(#E5E7EB,#334155); border-top:3px solid var(--cyan); border-radius:8px; padding:12px; }
+  .clock b { display:block; font-size:13px; color:var(--cyan); }
+  .clock span { font-size:13px; color:light-dark(#4B5563,#9ca3af); }
+  footer { margin-top:56px; padding-top:20px; border-top:1px solid light-dark(#E5E7EB,#334155); font-size:12.5px; color:light-dark(#6B7280,#9ca3af); }
+  @media print { header.hero { background:#0D2B45 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; } .track, pre { page-break-inside:avoid; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">Art of the Possible &mdash; Session 3</p>
+  <h1>Now Build Something</h1>
+  <p>45 minutes &middot; Pick a starting point or invent your own &middot; No judging, no scoring, no prize</p>
+  <p>Thursday 29 October 2026 &middot; 10:45 &ndash; 11:30 &middot; WeWork Perth CBD</p>
+</header>
+
+<h2 style="border-top:none; margin-top:0;">What this session is for</h2>
+<p style="font-size:17px;">You have just built a working Cortex Agent by following instructions. This session is for finding out what happens when nobody gives you the prompt.</p>
+
+<div class="callout win">
+  <strong>This is not a competition.</strong>
+  There are no judges, no scoring, no prize and no winner. Nobody is going to rank your work. There is nothing to submit. The only thing we would like at the end is for two or three people to show the room one thing they got working &mdash; and that is entirely voluntary.
+  <br><br>
+  Which means the most useful thing you can do with these 45 minutes is <strong>try the thing you are not sure will work</strong>. That is a much better use of having the InterWorks and Snowflake team in the room than building something safe.
+</div>
+
+<h2 id="starting-point">Your starting point</h2>
+<p>Everything from the lab stays exactly as it is. Do not drop it or rebuild it. You already have:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Asset</th><th>What it is</th></tr></thead>
+  <tbody>
+    <tr><td><code>SUMMIT_GEAR_CO.SALES.DEALS</code></td><td>200 deals &mdash; value, stage, win status, rep, territory, product, close date</td></tr>
+    <tr><td><code>SUMMIT_GEAR_CO.SALES.SALES_CONVERSATIONS</code></td><td>150 sales-call transcripts with rep, customer, territory, product and deal stage</td></tr>
+    <tr><td><code>SALES_CALL_SEARCH</code></td><td>Cortex Search service over the transcripts</td></tr>
+    <tr><td>Your deals semantic view</td><td>Dimensions, metrics and synonyms over <code>DEALS</code></td></tr>
+    <tr><td><code>SUMMIT_GEAR_AGENT</code></td><td>A deployed Cortex Agent orchestrating search and analyst</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout">
+  <strong>Still all sample data.</strong>
+  Summit Gear Co. remains entirely invented, and it stays that way this session. Please do not load anything real or confidential from your organisation into a 30-day trial account &mdash; if an idea needs your own data to make sense, describe the shape of it to CoCo and have it generate something equivalent. That is usually faster anyway, and it is how you would prototype this properly.
+</div>
+
+<h3>Working together</h3>
+<p>Work on your own if you prefer, or with the others from your organisation. If you are working together, <strong>build on one person's account on one screen</strong> &mdash; whoever's lab finished cleanest. Trying to merge work across several trial accounts will cost you most of the 45 minutes in plumbing. Everyone else is more use testing it and trying to break it.</p>
+
+<h2 id="tracks">Three starting points</h2>
+<p>Each one gives you a business person, a question your current agent answers badly, and starter prompts to get you moving. <strong>They are a floor, not a ceiling.</strong> More than one table can pick the same one.</p>
+
+<div class="track">
+  <h3>Track 1 &mdash; Sales Coaching</h3>
+  <p class="who">The person: a Sales Manager with eight reps, who has never listened to most of their calls.</p>
+  <p class="fit">Good if you care about: unstructured text, quality and performance signals buried in conversations.</p>
+  <p><strong>The problem.</strong> Win rates vary wildly between reps and nobody knows why. The answer is sitting in 150 call transcripts that no human has time to read. The manager needs to know what their best rep does differently &mdash; and what to coach the others on this week.</p>
+  <p><strong>What good looks like.</strong> The agent can say which rep needs coaching, on what specific behaviour, with evidence from actual calls, and tie it to lost revenue.</p>
+  <p><strong>Starter prompts:</strong></p>
+<pre><code>Using AI functions on SALES_CONVERSATIONS, create a table that scores each
+transcript for sentiment and classifies the primary objection type raised
+(price, competitor, timing, inventory, internal approval, other).
+Join it to DEALS on the deal so each conversation has its win outcome.
+
+Then build a semantic view over that table so the agent can answer
+"which objection type do we lose most often, and which rep handles it best?"</code></pre>
+<pre><code>Add a tool to SUMMIT_GEAR_AGENT over the new coaching table, and update the
+agent's orchestration instructions so coaching questions route to it.
+Then ask: Who are my two weakest reps on price objections,
+and what should I coach them on? Cite specific calls.</code></pre>
+  <p><strong>If that works, try:</strong> have the agent draft the actual coaching note to the rep, naming the calls.</p>
+</div>
+
+<div class="track">
+  <h3>Track 2 &mdash; Pipeline Risk</h3>
+  <p class="who">The person: a VP Sales on a Monday forecast call, who does not trust the numbers.</p>
+  <p class="fit">Good if you care about: the gap between what a system of record says and what is actually true.</p>
+  <p><strong>The problem.</strong> The CRM says a deal is in Negotiation. The last call transcript says the customer went quiet about budget and mentioned a competitor. One of those is a stage field, the other is the truth. The VP needs to know which open deals are genuinely at risk before committing to a forecast.</p>
+  <p><strong>What good looks like.</strong> A risk score per open deal derived from the conversation rather than the stage field, with the reason in plain English and the dollar value exposed.</p>
+  <p><strong>Starter prompts:</strong></p>
+<pre><code>For every deal in DEALS that is not Closed Won or Lost, use AI functions over
+its related transcripts to produce: a risk level (high / medium / low), a one-line
+reason, and any competitor mentioned. Write this to a DEAL_RISK table with the
+deal value carried through. Explain your approach before you run it.</code></pre>
+<pre><code>Build a semantic view over DEAL_RISK with a metric for total value at risk,
+attach it to SUMMIT_GEAR_AGENT as an additional tool, and update the
+orchestration instructions. Then ask: What is my total pipeline at risk
+this quarter, which deals are the biggest exposures, and why?</code></pre>
+  <p><strong>If that works, try:</strong> flag the deals where the CRM stage and the conversation evidence disagree. That contradiction list is the real product.</p>
+</div>
+
+<div class="track">
+  <h3>Track 3 &mdash; Customer 360</h3>
+  <p class="who">The person: an Account Executive walking into a renewal meeting in ten minutes.</p>
+  <p class="fit">Good if you care about: pulling one coherent view of an entity out of several scattered sources.</p>
+  <p><strong>The problem.</strong> Everything about this customer exists &mdash; deal history, every call, their objections, their product mix. It is just spread across two tables and 150 transcripts. The AE needs one briefing, right now, that is actually about this customer.</p>
+  <p><strong>What good looks like.</strong> Ask for a customer by name, get a briefing a human would trust: what they buy, what they have pushed back on, their trajectory, and what to lead with today.</p>
+  <p><strong>Starter prompts:</strong></p>
+<pre><code>Create a CUSTOMER_PROFILE table, one row per customer in DEALS, with: total and
+won deal value, win rate, products purchased, deal count, first and most recent
+close date. Then use AI functions over that customer's transcripts to add a
+summarised relationship history and their recurring concerns.</code></pre>
+<pre><code>Build a semantic view over CUSTOMER_PROFILE, attach it to SUMMIT_GEAR_AGENT,
+and update the orchestration instructions so customer questions use it while
+still searching transcripts for specifics. Then ask: Brief me on REI before
+my renewal call — what do they buy, what have they objected to,
+and what should I lead with?</code></pre>
+  <p><strong>If that works, try:</strong> add a cross-sell recommendation grounded in what similar customers bought.</p>
+</div>
+
+<h2 id="own">Or build your own thing</h2>
+<p>The tracks exist so nobody stares at a blank screen. They are not the point. If you have your own idea, <strong>that is the better use of the time</strong> &mdash; you know your business and we do not.</p>
+
+<p>Two ways in that work well:</p>
+<ol>
+  <li><strong>Take a real question from your own work and ask it of this data.</strong> Not your real data &mdash; your real <em>question</em>. If you spend Monday mornings reconciling two reports that disagree, build the thing that would tell you which one is wrong. If you have call recordings, tickets or inspection notes nobody can query, the Summit Gear transcripts are a stand-in for them.</li>
+  <li><strong>Describe a dataset shaped like yours and have CoCo generate it.</strong> This is worth seeing in its own right. Ask it for a table of maintenance logs, claims, shipment exceptions, member records &mdash; whatever your world looks like &mdash; then point a search service and an agent at it. You will have a recognisable prototype in twenty minutes.</li>
+</ol>
+
+<div class="callout">
+  <strong>A good test of whether your idea is the right size:</strong> can you say, in one sentence, what question somebody will ask the agent at the end of the session? If yes, go. If you cannot, narrow it until you can. Almost everybody who runs out of time in this session chose something too big, not something too hard.
+</div>
+
+<div class="callout">
+  <strong>Let CoCo find the right AI function &mdash; do not guess the syntax.</strong>
+  Snowflake's AI functions cover sentiment, classification, extraction, filtering, aggregated summarisation and open-ended completion over text. Rather than trying to recall exact signatures, ask:
+  <code>What Snowflake AI functions could classify the objection type in a text column, and what is the current syntax?</code>
+  Getting CoCo to look up the authoritative answer instead of trusting your memory &mdash; or ours &mdash; is itself the habit worth taking away.
+</div>
+
+<h2 id="clock">How to spend the 45 minutes</h2>
+<div class="clock">
+  <div><b>0 &ndash; 5 min</b><span>Decide what you are building and who it is for. Write the one sentence. <strong>Do not start building yet.</strong></span></div>
+  <div><b>5 &ndash; 30 min</b><span>Build. Enrich the data, add the tool, update the orchestration instructions, test as you go.</span></div>
+  <div><b>30 &ndash; 40 min</b><span>Get one question working reliably end to end. If CoWork is up for you, try it there too.</span></div>
+  <div><b>40 &ndash; 45 min</b><span>Stop building. Run your question twice to be sure. Decide whether you want to show it.</span></div>
+</div>
+
+<div class="callout stop">
+  <strong>The ten-minute rule.</strong>
+  If you are stuck on the same error for ten minutes, stop and put your hand up. Someone will come and unblock you. There are several of us in the room and this is exactly what we are here for &mdash; the only way to waste this session is to spend fifteen minutes of it on a warehouse permission. Struggling in silence just costs you the session.
+</div>
+
+<h2 id="shares">Show us what you got working</h2>
+<p>In the wrap-up at 11:30 we would like <strong>two or three people to take two minutes</strong> and show the room one thing. Entirely voluntary &mdash; and genuinely low stakes, because there is nothing being assessed.</p>
+
+<p>If you do want to show something, the useful shape is:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Time</th><th>What to say</th></tr></thead>
+  <tbody>
+    <tr><td class="w">0:00&ndash;0:30</td><td>What you were trying to do, and who would use it.</td></tr>
+    <tr><td class="w">0:30&ndash;1:30</td><td>Ask your question live. Let the agent answer. Say which tool it chose.</td></tr>
+    <tr><td class="w">1:30&ndash;2:00</td><td>What surprised you &mdash; good or bad. The bad is often more interesting to the room.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout win">
+  <strong>"It didn't work" is a completely valid thing to show.</strong>
+  If you tried something ambitious and the agent gave a confidently wrong answer, or routed to the wrong tool, or refused to answer &mdash; that is more useful to everyone else in the room than a clean demo, and it is the kind of thing we would genuinely like to hear about. Nobody is scoring this.
+</div>
+
+<h3>Before you show anything</h3>
+<ul class="check">
+  <li>Your question has run successfully in the last five minutes</li>
+  <li>Your font size is readable from the back of the room</li>
+  <li>You know the one sentence about who would use this</li>
+</ul>
+
+<h2>Two ground rules</h2>
+<ol>
+  <li><strong>No confidential or production data.</strong> Not from your organisation, not from your clients, not in a trial account. Generate a stand-in instead &mdash; this one is non-negotiable.</li>
+  <li><strong>Hands off at 11:30.</strong> Not because anything is being judged, but because the wrap-up matters and we would rather you heard it than kept typing.</li>
+</ol>
+
+<footer>
+  <p><strong>Art of the Possible &mdash; AI Hands-On Workshop</strong> &middot; Session 3, Extended Hands-On &middot; InterWorks &amp; Snowflake &middot; Perth, 29 October 2026</p>
+  <p>Builds on the Snowflake quickstart <em>Getting Started with Cortex Agents with Snowflake CoCo</em>. Confirm current AI function syntax via CoCo or the Snowflake documentation rather than relying on the starter prompts verbatim.</p>
+</footer>
+
+</body>
+</html>

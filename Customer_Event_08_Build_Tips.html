@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="snowflake-source" content="cortex-agent-authored" />
+<title>Building with CoCo &mdash; things to consider</title>
+<script type="application/json" id="snowflake-report-metadata">
+{
+  "generated": "2026-10-28",
+  "intent": "Build-support page for Session 3 (extended hands-on) at the InterWorks + Snowflake 'Art of the Possible' customer workshop, Perth, 29 Oct 2026, 10:45-11:30. Widens participants' sense of what CoCo can build beyond the database objects in the lab, and gives practical prompting craft they can use in the 45 minutes. Complements Customer_Event_02_Build_Brief.html, which owns the tracks, the clock and the voluntary shares.",
+  "dataSources": [
+    { "type": "file", "note": "Modelled on 09_Hackathon_Build_Tips.html from the partner enablement (28 Oct 2026). Lab object names (SUMMIT_GEAR_CO.SALES.DEALS, SALES_CONVERSATIONS, SUMMIT_GEAR_WH) from Customer_Event_01_Lab_Guide.html. Session timing, non-competitive framing and the voluntary-share wrap-up from Customer_Event_02_Build_Brief.html. Floor support names from Customer_Event_03_Run_Sheet_INTERNAL.html. Branding navy #0D2B45 / cyan #29B5E8 consistent with the project." }
+  ],
+  "sections": [
+    { "id": "build", "title": "What you can build",
+      "producerNotes": "PURE INSPIRATION, no caveats - the event owner's decision of 27 Oct on the partner version, carried over deliberately. It applies even more cleanly here: this session has no rubric, no judging and no scoring at all, so there is nothing to fence participants away from. Do not add scoring or 'where the marks are' framing to this page - it would contradict Customer_Event_02_Build_Brief.html, which promises no judging three times." },
+    { "id": "context", "title": "Give CoCo the context",
+      "producerNotes": "Scoped to AGENTS.md only. In the customer lab AGENTS.md is Module 7 and explicitly OPTIONAL - the run sheet calls it 'the designated sacrifice' if the lab runs late. So this page must teach AGENTS.md from scratch rather than assume it was covered. Plan mode, subagents, skills, plugins and hooks were deliberately excluded - not covered in the lab, and new concepts mid-build cost more than they return." },
+    { "id": "craft", "title": "Prompting craft",
+      "producerNotes": "Adapted from the partner version for SOLO work at the operator's instruction (28 Oct): every team reference removed. Tip 5 was 'Your team has a sceptic. Give them a power tool.' - reframed as being your own sceptic, since there is no team to supply one. Tip 7 was 'You brought a client scenario with you', which suited partners; these attendees are the customer, so it now points at their own business." },
+    { "id": "stuck", "title": "If you get stuck" }
+  ]
+}
+</script>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    max-width: 800px; width: 100%; margin: 0 auto;
+    padding: clamp(16px, 4vw, 28px);
+    color: light-dark(#1f2937, #e5e7eb);
+    background: light-dark(#ffffff, #0f172a);
+    line-height: 1.55;
+    -webkit-text-size-adjust: 100%;
+  }
+  img, svg { max-width: 100%; height: auto; }
+
+  .hero {
+    background: linear-gradient(135deg, #0D2B45 0%, #164a73 100%);
+    color: #ffffff; border-radius: 12px;
+    padding: clamp(22px, 5vw, 34px); margin-bottom: 24px;
+  }
+  .eyebrow { font-size: 11.5px; font-weight: 700; letter-spacing: .14em;
+             text-transform: uppercase; color: #29B5E8; margin: 0 0 10px; }
+  .hero h1 { margin: 0 0 12px; font-size: clamp(23px, 5.5vw, 31px);
+             color: #ffffff; line-height: 1.2; }
+  .hero p { margin: 0; color: #cfe6f5; font-size: clamp(15px, 2.4vw, 16.5px); }
+
+  h2 { font-size: 19px; margin: 32px 0 6px; color: light-dark(#0D2B45, #f1f5f9); }
+  .sub { margin: 0 0 16px; font-size: 14.5px; color: light-dark(#5a6b7d, #94a3b8); }
+  p { margin: 0 0 14px; }
+  a { color: light-dark(#0b6fb3, #60a5fa); font-weight: 600; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+          gap: 12px; margin: 0 0 16px; }
+  .card { border: 1px solid light-dark(#e2e8f0, #334155);
+          border-radius: 8px; padding: 14px 16px;
+          background: light-dark(#ffffff, #16202e); }
+  .card h3 { margin: 0 0 4px; font-size: 15px; color: light-dark(#0D2B45, #f1f5f9); }
+  .card p { margin: 0; font-size: 14px; color: light-dark(#4a5a6a, #9fb0c0); }
+
+  .tip { padding: 13px 0; border-top: 1px solid light-dark(#e6ebf1, #2b3a4d); }
+  .tip:first-of-type { border-top: 0; padding-top: 4px; }
+  .tip h3 { margin: 0 0 4px; font-size: 15.5px; color: light-dark(#0f172a, #f1f5f9); }
+  .tip p { margin: 0; font-size: 14.5px; }
+  .tip .eg { display: block; margin-top: 7px; font-size: 14px;
+             padding-left: 12px; border-left: 3px solid #29B5E8;
+             color: light-dark(#4a5a6a, #9fb0c0); font-style: italic; }
+
+  .accent { background: light-dark(#F0F9FF, #10293a);
+            border-left: 4px solid #29B5E8;
+            padding: 15px 18px; border-radius: 0 8px 8px 0; margin: 20px 0; }
+  .accent p:last-child { margin-bottom: 0; }
+
+  pre { background: light-dark(#0b1623, #060d16); color: #e2e8f0;
+        padding: 13px 15px; border-radius: 7px; margin: 0 0 16px;
+        overflow-x: auto; font-size: 13px; line-height: 1.5; }
+  pre code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+         background: light-dark(#f1f5f9, #0b1623);
+         padding: 1px 5px; border-radius: 3px; font-size: 0.92em; }
+  pre code { background: none; padding: 0; font-size: inherit; }
+
+  .closer { background: #0D2B45; color: #ffffff; border-radius: 10px;
+            padding: 20px 22px; margin: 28px 0 0; }
+  .closer h2 { color: #ffffff; margin: 0 0 8px; }
+  .closer p { color: #cfe6f5; margin: 0; }
+  .closer strong { color: #ffffff; }
+
+  .foot { margin-top: 26px; padding-top: 14px;
+          border-top: 1px solid light-dark(#e2e8f0, #334155);
+          font-size: 13px; color: light-dark(#5a6b7d, #94a3b8); }
+  .foot p { margin: 0 0 4px; }
+
+  @media print {
+    body { background:#fff; color:#000; max-width:none; padding:12mm; font-size:10.5pt; }
+    .hero, .closer { background:#0D2B45 !important; }
+    pre { background:#0b1623 !important; }
+    .hero, .closer, .accent, .card, pre { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .tip, .card { break-inside:avoid; page-break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <p class="eyebrow">Art of the Possible &middot; Session 3</p>
+  <h1>If you can imagine it, you can build it</h1>
+  <p>In the lab you used CoCo to build database objects. That&rsquo;s a fraction of what it does. CoCo is a full development environment with an agent that can build, run and debug almost anything you can describe to it.</p>
+</div>
+
+<h2 id="build">So build something</h2>
+<p class="sub">Your agent is the starting point, not the finish line.</p>
+
+<div class="grid">
+  <div class="card">
+    <h3>A Streamlit app</h3>
+    <p>Put a real interface on your agent. Ask CoCo to build it and deploy it to Snowflake &mdash; it knows how.</p>
+  </div>
+  <div class="card">
+    <h3>A React front-end</h3>
+    <p>Something that looks like the product you&rsquo;d actually put in front of your own users.</p>
+  </div>
+  <div class="card">
+    <h3>An architecture diagram</h3>
+    <p>Describe your solution and have CoCo draw it. Useful if you show the room, and useful again back at your desk.</p>
+  </div>
+  <div class="card">
+    <h3>Data and pipelines</h3>
+    <p>More sample data, new tables, dynamic tables, tasks &mdash; whatever your idea needs.</p>
+  </div>
+  <div class="card">
+    <h3>Documentation</h3>
+    <p>A one-pager, a runbook, a plain-English summary of what you built and why it matters.</p>
+  </div>
+  <div class="card">
+    <h3>Something we haven&rsquo;t thought of</h3>
+    <p>If you can describe the outcome, it&rsquo;s worth asking CoCo for it.</p>
+  </div>
+</div>
+
+<div class="accent">
+  <p>Nearly all the material for this workshop &mdash; the lab guide, the briefs, this page, the behind-the-scenes logistics &mdash; was built in CoCo. Not as a demo. As the actual way the work got done.</p>
+</div>
+
+<h2 id="context">Give CoCo the context first</h2>
+<p class="sub">Two minutes here saves twenty later.</p>
+
+<p>CoCo reads <code>AGENTS.md</code> from your project root at the start of every session. Put your project&rsquo;s shape in it once and you stop re-explaining yourself in every prompt.</p>
+
+<pre><code># Project: Pipeline Risk Agent
+
+## What I'm building
+A Cortex Agent that shows a sales manager which deals are
+slipping, and why, using call transcripts as evidence.
+
+## Data
+SUMMIT_GEAR_CO.SALES.DEALS                 one row per deal
+SUMMIT_GEAR_CO.SALES.SALES_CONVERSATIONS   call transcripts
+Warehouse: SUMMIT_GEAR_WH
+
+## Conventions
+- Don't drop or recreate objects I already built
+- Explain the approach before writing SQL
+</code></pre>
+
+<p>Ask CoCo to write it for you &mdash; <em>&ldquo;create an AGENTS.md describing this project&rdquo;</em> &mdash; then correct it. Faster than typing it yourself.</p>
+
+<h2 id="craft">Seven things worth knowing</h2>
+<p class="sub">The difference between fighting CoCo and flying with it.</p>
+
+<div class="tip">
+  <h3>1. Describe the outcome, not the steps</h3>
+  <p>You don&rsquo;t need to know the SQL. Say what you want to be true at the end.</p>
+  <span class="eg">&ldquo;I want a manager to open this and immediately see which three deals need attention this week, and what was said on the calls that makes them risky.&rdquo;</span>
+</div>
+
+<div class="tip">
+  <h3>2. Ask for the approach before the code</h3>
+  <p>Have CoCo tell you how it intends to solve it first. Correcting a plan takes seconds; correcting a built thing takes minutes you don&rsquo;t have.</p>
+  <span class="eg">&ldquo;Before you build anything, tell me how you&rsquo;d approach this and what you&rsquo;d need from me.&rdquo;</span>
+</div>
+
+<div class="tip">
+  <h3>3. Paste the whole error</h3>
+  <p>Don&rsquo;t summarise it, don&rsquo;t retype it. Give CoCo the complete message including any request or session ID. It reads detail you&rsquo;d skip over.</p>
+</div>
+
+<div class="tip">
+  <h3>4. One change at a time</h3>
+  <p>Make a change, check it works, then move on. A single big request that half-works is harder to unpick than four small ones that each landed.</p>
+</div>
+
+<div class="tip">
+  <h3>5. Ask it to find the holes</h3>
+  <p>Working on your own, you don&rsquo;t have anyone looking over your shoulder. So make CoCo do it &mdash; it is perfectly willing to criticise its own work if you ask it to.</p>
+  <span class="eg">&ldquo;What assumptions did you just make? What would break this? What would a sceptical sales manager immediately distrust about these numbers?&rdquo;</span>
+</div>
+
+<div class="tip">
+  <h3>6. Say what you don&rsquo;t want</h3>
+  <p>Constraints are as useful as instructions. Keep it simple, don&rsquo;t touch that table, no new dependencies, plain SQL only &mdash; say so and CoCo will hold the line.</p>
+</div>
+
+<div class="tip">
+  <h3>7. Tell it the business context</h3>
+  <p>You know your own business far better than CoCo does. Give it that, not just the technical task &mdash; it makes better choices about what to surface and what to ignore when it knows who&rsquo;s looking and what decision they&rsquo;re making.</p>
+</div>
+
+<h2 id="stuck">If you get stuck</h2>
+<p class="sub">Everyone does. Here&rsquo;s the fastest way out.</p>
+
+<div class="tip">
+  <h3>Restate the goal from scratch</h3>
+  <p>Say the whole thing again, plainly, as if starting fresh. Half the time the fix is that CoCo is solving the problem you described three prompts ago.</p>
+</div>
+
+<div class="tip">
+  <h3>Ask CoCo what it would do differently</h3>
+  <p><em>&ldquo;This isn&rsquo;t working. What would you change about the approach?&rdquo;</em> It will often propose something better than the path you put it on.</p>
+</div>
+
+<div class="tip">
+  <h3>Cut to one thing that works</h3>
+  <p>One finished thing beats three half-built ones. If time is tight, pick the piece that best shows your idea and make that solid.</p>
+</div>
+
+<div class="tip">
+  <h3>Put your hand up</h3>
+  <p>Brian, Matthew Zele and the rest of the Snowflake and InterWorks team are on the floor for the whole session. That&rsquo;s exactly what they&rsquo;re there for &mdash; if you&rsquo;ve been stuck on the same thing for ten minutes, stop and ask.</p>
+</div>
+
+<div class="closer">
+  <h2>One last thing</h2>
+  <p>The people who get the most out of these 45 minutes aren&rsquo;t the ones who know the most SQL. They&rsquo;re the ones who <strong>ask for bigger things</strong>. Be ambitious with what you ask CoCo for &mdash; you&rsquo;ll be surprised how often the answer is &ldquo;yes, here it is&rdquo;.</p>
+</div>
+
+<div class="foot">
+  <p><strong>Art of the Possible</strong> &mdash; AI Hands-On Workshop &middot; Session 3, Extended Hands-On &middot; InterWorks &amp; Snowflake</p>
+  <p>Thursday 29 October 2026 &middot; 10:45 &ndash; 11:30 &middot; WeWork Perth CBD</p>
+</div>
+
+</body>
+</html>
