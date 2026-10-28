@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="snowflake-source" content="cortex-agent-authored" />
+<title>Art of the Possible &mdash; AI Hands-On Workshop, Perth</title>
+<meta name="description" content="InterWorks &amp; Snowflake, Art of the Possible AI Hands-On Workshop. Thursday 29 October 2026, 8:45 AM to 12:00 PM, WeWork Perth CBD. Agenda, objectives, lab guide and build brief." />
+<script type="application/json" id="snowflake-report-metadata">
+{
+  "generated": "2026-10-28",
+  "intent": "GitHub Pages home page for the InterWorks + Snowflake 'Art of the Possible' customer workshop repo (sfc-gh-borloff/perth_snowflake_interworks_art_of_possible), Perth, 29 Oct 2026. Explains the experience, the objectives for the day, and the agenda, with entry points to the three participant-facing pages.",
+  "dataSources": [
+    { "type": "file", "note": "Page structure, CSS and agenda-row pattern modelled on index.html (the partner event home page). Agenda times and session wording from Customer_Event_04_Email_Prep_for_Angela.html, with the operator's 28 Oct amendment applied. Outcome cards condensed from the 'What you will have built by lunchtime' section of Customer_Event_06_Event_Details.html. Links taken verbatim from 'README Customer Event.md'. Branding navy #0D2B45 / cyan #29B5E8 consistent with the project." }
+  ],
+  "sections": [
+    { "id": "prereqs", "title": "Arrived and not set up yet?",
+      "producerNotes": "Links Customer_Event_09_Day_Of_Catch_Up.html. Surfaced twice on purpose - once as a callout above the agenda and once in the 8:45 welcome row - because the people who need it are arriving flustered and scanning, not reading. Same pattern as index.html for the partner event. The URL follows the established repo path convention; it is NOT in 'README Customer Event.md', so add it there if that file is the source of truth for published links." },
+    { "id": "outcomes", "title": "What you will have built by lunchtime",
+      "producerNotes": "Condensed from the six outcome cards in Customer_Event_06_Event_Details.html, one line each, at the operator's instruction (28 Oct). Transcript count is 150, matching the restored figure in Customer_Event_01_Lab_Guide.html - do not revert to 60." },
+    { "id": "agenda", "title": "Agenda",
+      "producerNotes": "AMENDED, deliberately not copied verbatim from Customer_Event_04_Email_Prep_for_Angela.html. That email has the build running 10:45-11:45 and the wrap-up at 11:45. Operator instruction 28 Oct: build runs 10:45-11:30 and the closing/sharing starts 11:30. Day still ends 12:00, so the closing is now 30 minutes rather than 15. KNOWN INCONSISTENCY the operator chose to leave standing: Customer_Event_06_Event_Details.html still shows 10:45-11:45 / 60 minutes / 11:45-12:00 and calls the build 'the open hour'. If 06 is ever corrected, align it to this page, not the other way round. Customer_Event_02_Build_Brief.html and Customer_Event_03_Run_Sheet_INTERNAL.html are already consistent with 10:45-11:30." }
+  ],
+  "omitted": "No prerequisites or 'what to bring' section - operator decision 28 Oct, agenda and objectives only. The confirmation email and Customer_Event_06_Event_Details.html carry that detail. A day-of catch-up link WAS added later the same day, once Customer_Event_09_Day_Of_Catch_Up.html existed, at the operator's request.",
+  "links": {
+    "session2_lab": "https://sfc-gh-borloff.github.io/perth_snowflake_interworks_art_of_possible/Customer_Event_01_Lab_Guide.html",
+    "session3_build": "https://sfc-gh-borloff.github.io/perth_snowflake_interworks_art_of_possible/Customer_Event_02_Build_Brief.html",
+    "build_tips": "https://sfc-gh-borloff.github.io/perth_snowflake_interworks_art_of_possible/Customer_Event_08_Build_Tips.html",
+    "day_of_catch_up": "https://sfc-gh-borloff.github.io/perth_snowflake_interworks_art_of_possible/Customer_Event_09_Day_Of_Catch_Up.html"
+  }
+}
+</script>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    max-width: 820px; width: 100%; margin: 0 auto;
+    padding: clamp(16px, 4vw, 28px);
+    color: light-dark(#1f2937, #e5e7eb);
+    background: light-dark(#ffffff, #0f172a);
+    line-height: 1.55;
+    -webkit-text-size-adjust: 100%;
+  }
+  img, svg { max-width: 100%; height: auto; }
+
+  .hero {
+    background: linear-gradient(135deg, #0D2B45 0%, #164a73 100%);
+    color: #ffffff; border-radius: 12px;
+    padding: clamp(22px, 5vw, 36px); margin-bottom: 26px;
+  }
+  .eyebrow {
+    font-size: 11.5px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: #29B5E8; margin: 0 0 10px;
+  }
+  .hero h1 { margin: 0 0 12px; font-size: clamp(24px, 6vw, 34px);
+             color: #ffffff; line-height: 1.2; }
+  .hero .lede { margin: 0 0 20px; color: #cfe6f5; font-size: clamp(15px, 2.4vw, 16.5px); }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0;
+           padding: 16px 0 0; border-top: 1px solid rgba(255,255,255,.18);
+           list-style: none; font-size: 14.5px; color: #ffffff; }
+  .facts li { margin: 0; }
+  .facts .lbl { display: block; font-size: 11px; letter-spacing: .08em;
+                text-transform: uppercase; color: #8fc9e8; font-weight: 700; }
+
+  h2 { font-size: 19px; margin: 32px 0 12px; color: light-dark(#0D2B45, #f1f5f9); }
+  .sub { margin: -4px 0 16px; font-size: 14.5px; color: light-dark(#5a6b7d, #94a3b8); }
+  p { margin: 0 0 14px; }
+  a { color: light-dark(#0b6fb3, #60a5fa); font-weight: 600; }
+
+  .catchup {
+    background: light-dark(#F0F9FF, #10293a);
+    border: 1px solid light-dark(#bae6fd, #1e4a66);
+    border-left: 4px solid #29B5E8;
+    border-radius: 0 8px 8px 0; padding: 16px 18px; margin: 0 0 8px;
+  }
+  .catchup h2 { margin: 0 0 6px; font-size: 16.5px; }
+  .catchup p:last-child { margin-bottom: 0; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+          gap: 12px; margin: 0 0 14px; }
+  .card { border: 1px solid light-dark(#e2e8f0, #334155);
+          border-radius: 8px; padding: 14px 16px;
+          background: light-dark(#ffffff, #16202e); }
+  .card h3 { margin: 0 0 4px; font-size: 15px; color: light-dark(#0D2B45, #f1f5f9); }
+  .card p { margin: 0; font-size: 14px; color: light-dark(#4a5a6a, #9fb0c0); }
+
+  .keep { background: light-dark(#F0F9FF, #10293a);
+          border-left: 4px solid #29B5E8;
+          padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 0 0 8px; }
+  .keep p:last-child { margin-bottom: 0; }
+
+  .row {
+    display: grid; grid-template-columns: 112px 1fr;
+    gap: 4px 16px; padding: 14px 0;
+    border-top: 1px solid light-dark(#e6ebf1, #2b3a4d);
+  }
+  .row:first-of-type { border-top: 0; }
+  .row.pause { opacity: .72; }
+  .time { font-weight: 700; font-size: 14px; white-space: nowrap;
+          color: light-dark(#0D2B45, #cbd5e1); padding-top: 1px; }
+  .what { margin: 0; }
+  .what .title { font-weight: 700; color: light-dark(#0f172a, #f1f5f9); }
+  .what .desc { display: block; font-size: 14px; margin-top: 3px;
+                color: light-dark(#4a5a6a, #9fb0c0); }
+  .tag {
+    display: inline-block; margin-top: 7px; font-size: 10.5px; font-weight: 700;
+    letter-spacing: .09em; text-transform: uppercase;
+    background: light-dark(#e8f4fb, #15354a); color: light-dark(#0b5c8f, #7dd3fc);
+    border-radius: 3px; padding: 2px 7px;
+  }
+  @media (max-width: 480px) {
+    .row { grid-template-columns: 1fr; gap: 2px; }
+    .time { font-size: 13px; }
+  }
+
+  .foot { margin-top: 34px; padding-top: 16px;
+          border-top: 1px solid light-dark(#e2e8f0, #334155);
+          font-size: 13px; color: light-dark(#5a6b7d, #94a3b8); }
+  .foot p { margin: 0 0 4px; }
+  .foot strong { color: light-dark(#0D2B45, #cbd5e1); }
+
+  @media print {
+    body { background:#fff; color:#000; max-width:none; padding:12mm; font-size:10.5pt; }
+    .hero { background:#0D2B45 !important; }
+    .hero, .card, .keep { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .row, .card { break-inside:avoid; page-break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <p class="eyebrow">InterWorks &amp; Snowflake</p>
+  <h1>Art of the Possible</h1>
+  <p class="lede">A hands-on morning, not a demo you watch. You&rsquo;ll build and deploy a working AI agent over sample sales data by describing what you want in plain English &mdash; then hand it to a business user and build something of your own.</p>
+  <ul class="facts">
+    <li><span class="lbl">Date</span>Thursday 29 October 2026</li>
+    <li><span class="lbl">Time</span>8:45 AM &ndash; 12:00 PM</li>
+    <li><span class="lbl">Venue</span>WeWork Perth CBD, Central Park Tower</li>
+  </ul>
+</div>
+
+<h2>Welcome</h2>
+<p>Everything you need for the morning lives on this page. You will be driving the tools yourself &mdash; typing what you want in plain English and watching it get built &mdash; rather than listening to someone describe it. Led from the front, step by step, with people circulating to help.</p>
+<p>You do not need to be an engineer, and you do not need to bring any data. The sample company is invented and the whole dataset gets generated on the day. The point of the morning is to find out what is genuinely possible now, on your own data problems, with your own hands on the keyboard.</p>
+
+<h2 id="outcomes">What you&rsquo;ll have built by lunchtime</h2>
+<p class="sub">Six things, all of them yours to keep.</p>
+
+<div class="grid">
+  <div class="card">
+    <h3>A loaded dataset</h3>
+    <p>200 deals and 150 call transcripts, generated from a plain-English description.</p>
+  </div>
+  <div class="card">
+    <h3>Searchable transcripts</h3>
+    <p>Semantic and keyword search over unstructured text, with no pipeline to build.</p>
+  </div>
+  <div class="card">
+    <h3>A semantic view</h3>
+    <p>Your business definitions written down, so plain-English questions become accurate SQL.</p>
+  </div>
+  <div class="card">
+    <h3>A deployed agent</h3>
+    <p>One agent that routes across structured and unstructured data, with citations.</p>
+  </div>
+  <div class="card">
+    <h3>The same agent in CoWork</h3>
+    <p>Used by a business person in a chat interface. No code, nothing redeployed.</p>
+  </div>
+  <div class="card">
+    <h3>Something of your own</h3>
+    <p>Whatever you choose to build in the final session, running in your own account.</p>
+  </div>
+</div>
+
+<div class="keep">
+  <p>All of it stays in your trial account for 30 days &mdash; so you can show a colleague on Friday, or pick it apart again next week.</p>
+</div>
+
+<div class="catchup">
+  <h2 id="prereqs">Arrived and not set up yet?</h2>
+  <p>No problem at all, and you won&rsquo;t be the only one. There are only two things. <a href="https://sfc-gh-borloff.github.io/perth_snowflake_interworks_art_of_possible/Customer_Event_09_Day_Of_Catch_Up.html" target="_blank" rel="noopener">Start here &mdash; about 15 minutes</a> and grab any of the Snowflake or InterWorks team in the room.</p>
+</div>
+
+<h2 id="agenda">Agenda</h2>
+
+<div class="row">
+  <div class="time">8:45 &ndash; 9:00</div>
+  <p class="what"><span class="title">Welcome from InterWorks and Snowflake</span>
+    <span class="desc">Who&rsquo;s in the room, and what the morning is for. Not set up yet? <a href="https://sfc-gh-borloff.github.io/perth_snowflake_interworks_art_of_possible/Customer_Event_09_Day_Of_Catch_Up.html" target="_blank" rel="noopener">Catch-up guide</a> &mdash; about 15 minutes.</span>
+  </p>
+</div>
+
+<div class="row">
+  <div class="time">9:00 &ndash; 9:30</div>
+  <p class="what"><span class="title">The agentic enterprise</span>
+    <span class="desc">What&rsquo;s actually changed, and what it means for your data. The framing the rest of the morning is built around.</span>
+    <span class="tag">Lecture</span>
+  </p>
+</div>
+
+<div class="row">
+  <div class="time">9:30 &ndash; 10:30</div>
+  <p class="what"><span class="title"><a href="https://sfc-gh-borloff.github.io/perth_snowflake_interworks_art_of_possible/Customer_Event_01_Lab_Guide.html" target="_blank" rel="noopener">Session 2 &mdash; Hands-on: build and deploy your own AI agent</a></span>
+    <span class="desc">Over sample sales data &mdash; then hand it to a business user. Every step is in the lab guide, which is yours to keep and re-run afterwards.</span>
+    <span class="tag">Guided lab</span>
+  </p>
+</div>
+
+<div class="row pause">
+  <div class="time">10:30 &ndash; 10:45</div>
+  <p class="what"><span class="title">Morning tea</span>
+    <span class="desc">And the chance to ask the questions you didn&rsquo;t want to ask in front of the room.</span>
+  </p>
+</div>
+
+<div class="row">
+  <div class="time">10:45 &ndash; 11:30</div>
+  <p class="what"><span class="title"><a href="https://sfc-gh-borloff.github.io/perth_snowflake_interworks_art_of_possible/Customer_Event_02_Build_Brief.html" target="_blank" rel="noopener">Session 3 &mdash; Hands-on: build something of your own</a></span>
+    <span class="desc">Pick one of our starting points or bring your own idea. No judging, no scoring, nothing to submit. <b>Need inspiration?</b> <a href="https://sfc-gh-borloff.github.io/perth_snowflake_interworks_art_of_possible/Customer_Event_08_Build_Tips.html" target="_blank" rel="noopener">Tips and tricks</a></span>
+    <span class="tag">Open build</span>
+  </p>
+</div>
+
+<div class="row">
+  <div class="time">11:30 &ndash; 12:00</div>
+  <p class="what"><span class="title">Closing and sharing</span>
+    <span class="desc">We&rsquo;ll invite people to share what they built &mdash; entirely voluntary, a couple of minutes each, and &ldquo;it didn&rsquo;t work and here&rsquo;s why&rdquo; is a completely welcome contribution. Then what you&rsquo;re taking away and where to go next.</span>
+    <span class="tag">Wrap-up</span>
+  </p>
+</div>
+
+<div class="foot">
+  <p><strong>Art of the Possible</strong> &mdash; AI Hands-On Workshop &middot; InterWorks &amp; Snowflake</p>
+  <p>Thursday 29 October 2026 &middot; WeWork Perth CBD, Central Park Tower, 152 St Georges Terrace, Perth WA 6000</p>
+  <p>Powered by Snowflake Cortex AI</p>
+</div>
+
+</body>
+</html>

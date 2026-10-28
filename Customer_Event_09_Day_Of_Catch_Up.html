@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="snowflake-source" content="cortex-agent-authored" />
+<title>Not set up yet? Start here &mdash; Perth, 29 October</title>
+<script type="application/json" id="snowflake-report-metadata">
+{
+  "generated": "2026-10-28",
+  "intent": "Day-of catch-up sheet for the InterWorks + Snowflake 'Art of the Possible' customer workshop, Perth, 29 Oct 2026. For attendees who arrive without the two prerequisites done. Deliberately short and written to remove any sense of being behind.",
+  "dataSources": [
+    { "type": "file", "note": "Modelled on 08_Day_Of_Catch_Up.html from the partner enablement. Both prerequisites, the trial signup link (token 941967ca..., AWS ap-northeast-1 pinned), the CoCo Desktop downloads URL, the Enterprise/ACCOUNTADMIN checks, the Windows User installer guidance and the verification prompt are all lifted verbatim from Customer_Event_04_Email_Prep_for_Angela.html, the preparation email attendees received. Agenda timings from Customer_Event_00_index.html. Staff names from Customer_Event_03_Run_Sheet_INTERNAL.html." }
+  ],
+  "sections": [
+    { "id": "triage", "title": "What has to be done, and by when",
+      "producerNotes": "TWO prerequisites, not four - this event has no CLI step and no badge enrolment, unlike the partner version this is modelled on. Both are needed before the 9:30 lab because the whole lab is driven from CoCo Desktop, so there is no deadline-based triage to do; the ordering constraint is simply that the trial account must exist before Desktop can connect to it. The 9:00-9:30 session is a lecture with nothing hands-on, which is the real slack in the morning - attendees are told they can finish setting up through it rather than panicking." },
+    { "id": "step-1", "title": "Step 1 - Trial account",
+      "producerNotes": "Region must stay AWS ap-northeast-1 (Tokyo) because the signup token pins it, and because Tokyo has the Cortex AI features the workshop needs. Enterprise edition, ACCOUNTADMIN. The 'fresh trial, not your corporate account' instruction is from the email and matters - attendees create and drop objects freely all morning." },
+    { "id": "step-2", "title": "Step 2 - CoCo Desktop",
+      "producerNotes": "Windows User installer called out explicitly: it needs no admin rights, which is the main fix for managed corporate laptops. The CLI is mentioned only to say it is NOT required - the email makes the same point, and the whole lab runs from the desktop app." },
+    { "id": "test", "title": "The 30-second test",
+      "producerNotes": "Carries the known Cortex-AI-on-trial-accounts failure. Confirmed in the field 20 Oct 2026 on account KT10300: self-service trials have AI features disabled by default, surfacing as 'Access denied for trial accounts.' in Desktop. Attendees are told to escalate rather than self-diagnose, because the documented fix is adding a credit card and that is not something to ask a workshop attendee to do. See 07_Troubleshooting_Cortex_Not_Enabled.md." }
+  ]
+}
+</script>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    max-width: 760px; width: 100%; margin: 0 auto;
+    padding: clamp(16px, 4vw, 28px);
+    color: light-dark(#1f2937, #e5e7eb);
+    background: light-dark(#ffffff, #0f172a);
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+  }
+  .hero {
+    background: #0D2B45; color: #ffffff;
+    border-radius: 10px; padding: clamp(18px, 4vw, 26px);
+    margin-bottom: 22px;
+  }
+  .hero h1 { margin: 0 0 8px; font-size: clamp(21px, 5vw, 27px); color: #ffffff; line-height: 1.25; }
+  .hero p { margin: 0; color: #cfe6f5; font-size: 15px; }
+  .hero .mins { color: #29B5E8; font-weight: 700; }
+
+  h2 { font-size: 18px; margin: 28px 0 10px; color: light-dark(#0D2B45, #f1f5f9); }
+  p { margin: 0 0 12px; }
+  a { color: light-dark(#0b6fb3, #60a5fa); font-weight: 600; }
+
+  .reassure {
+    background: light-dark(#F0F9FF, #10293a);
+    border-left: 4px solid #29B5E8;
+    padding: 14px 16px; border-radius: 0 6px 6px 0; margin: 0 0 24px;
+  }
+  .reassure p:last-child { margin-bottom: 0; }
+
+  .step {
+    border: 1px solid light-dark(#e2e8f0, #334155);
+    border-radius: 8px; padding: 16px 18px; margin: 0 0 14px;
+    background: light-dark(#ffffff, #16202e);
+    break-inside: avoid; page-break-inside: avoid;
+  }
+  .step h3 { margin: 0 0 4px; font-size: 16px; color: light-dark(#0D2B45, #f1f5f9); }
+  .step .meta { font-size: 12px; font-weight: 700; letter-spacing: .04em;
+                text-transform: uppercase; color: light-dark(#5a6b7d, #94a3b8); margin: 0 0 10px; }
+  .step p:last-child, .step ul:last-child { margin-bottom: 0; }
+  .skip { font-size: 14px; color: light-dark(#4a5a6a, #9fb0c0); font-style: italic; }
+
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: light-dark(#f1f5f9, #0b1623);
+    padding: 1px 5px; border-radius: 3px; font-size: 0.92em;
+  }
+  pre {
+    background: light-dark(#0b1623, #060d16); color: #e2e8f0;
+    padding: 11px 13px; border-radius: 6px; margin: 6px 0 12px;
+    overflow-x: auto; font-size: 13px; line-height: 1.45;
+  }
+  pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+
+  .when { background: light-dark(#f8fafc, #16202e);
+          border: 1px solid light-dark(#e2e8f0, #334155);
+          border-radius: 8px; padding: 6px 18px 14px; margin: 0 0 8px; }
+  .when ul { margin: 10px 0 0; padding-left: 20px; }
+  .when li { margin-bottom: 7px; }
+  .when li:last-child { margin-bottom: 0; }
+
+  .warn { background: light-dark(#FFFBEB, #2e2408);
+          border-left: 4px solid #D97706;
+          padding: 14px 16px; border-radius: 0 6px 6px 0; margin: 14px 0; }
+  .warn strong:first-child { color: light-dark(#92400E, #fbbf24); }
+  .warn p:last-child { margin-bottom: 0; }
+
+  .ask { background: #0D2B45; color: #ffffff; border-radius: 8px;
+         padding: 16px 18px; margin: 24px 0 0; }
+  .ask h2 { color: #ffffff; margin: 0 0 8px; }
+  .ask p { color: #cfe6f5; margin: 0; }
+  .ask strong { color: #ffffff; }
+
+  .foot { margin-top: 28px; padding-top: 14px;
+          border-top: 1px solid light-dark(#e2e8f0, #334155);
+          font-size: 13px; color: light-dark(#5a6b7d, #94a3b8); }
+  .foot p { margin: 0 0 4px; }
+
+  @media print {
+    body { background: #fff; color: #000; max-width: none; padding: 12mm; font-size: 11pt; }
+    .hero, .ask { background: #0D2B45 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    pre { background: #0b1623 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .reassure, .warn, .when, .step { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    a { word-break: break-all; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Not set up yet? Start here.</h1>
+  <p>You&rsquo;re in the right place. There are only <span class="mins">two things</span>, and they take about <span class="mins">15 minutes</span> between them.</p>
+</div>
+
+<div class="reassure">
+  <p><strong>Genuinely, this is fine.</strong> You&rsquo;re not the only one, we expected it, and there are several of us in the room specifically to get you going.</p>
+  <p>Work down this sheet in order. If anything doesn&rsquo;t behave, put your hand up straight away rather than quietly falling behind &mdash; that&rsquo;s the whole reason we&rsquo;re here.</p>
+</div>
+
+<h2 id="triage">What has to be done, and by when</h2>
+
+<div class="when">
+  <ul>
+    <li><strong>Both before the lab at 9:30</strong> &mdash; the trial account, then CoCo Desktop. You&rsquo;ll be driving Desktop from the very start of the lab, so both need to be working.</li>
+    <li><strong>Do them in this order.</strong> Desktop connects to your trial account, so the account has to exist first.</li>
+    <li><strong>Still going at 9:00?</strong> Carry on quietly. That session is a talk with nothing hands-on, so you can finish setting up through it without missing anything you need.</li>
+  </ul>
+</div>
+
+<p class="skip">Already done one of these? Skip straight past it &mdash; but do run the 30-second test at the bottom.</p>
+
+<div class="step" id="step-1">
+  <h3>Step 1 &mdash; Your free Snowflake trial account</h3>
+  <p class="meta">About 5 minutes</p>
+  <p><a href="https://signup.snowflake.com/?t=941967cad9f06966b577922df019490a2da3de307aba66de7c4979562ec1ee37&amp;cloud=aws&amp;region=ap-northeast-1" target="_blank" rel="noopener">Snowflake trial signup</a> &mdash; use this link, not a signup page you find yourself.</p>
+  <p><strong>Leave the region exactly as the link sets it</strong> &mdash; Asia Pacific (Tokyo). It looks wrong from Perth. It isn&rsquo;t. It&rsquo;s pre-selected so you land in a region with the AI features this workshop needs, and changing it will break the lab.</p>
+  <p>Choose <strong>Enterprise</strong> edition when prompted. Then check the activation email, sign in to Snowsight in your browser, and confirm your role shows as <code>ACCOUNTADMIN</code> in the top right &mdash; you&rsquo;ll be creating databases, search services and agents today, and you need the permissions to do it.</p>
+  <p class="skip">Please use a fresh trial account rather than your organisation&rsquo;s existing Snowflake account. You&rsquo;ll be creating and deleting things freely all morning, and on a trial you can do that without a second thought.</p>
+</div>
+
+<div class="step" id="step-2">
+  <h3>Step 2 &mdash; CoCo Desktop</h3>
+  <p class="meta">About 10 minutes</p>
+  <p>CoCo is Snowflake&rsquo;s AI assistant for building things on Snowflake &mdash; it&rsquo;s what you&rsquo;ll be driving all morning.</p>
+  <p><strong>1. Download it</strong> for macOS or Windows: <a href="https://www.snowflake.com/en/product/snowflake-coco/downloads/" target="_blank" rel="noopener">CoCo Desktop downloads</a>.</p>
+  <p>On Windows you&rsquo;ll be offered two options &mdash; pick the <strong>User installer</strong>. It installs for you only and <strong>needs no administrator rights</strong>, so a laptop managed by your IT team is not a blocker.</p>
+  <p><strong>2. Open it and connect</strong> to the trial account you just created. It walks you through this on first launch.</p>
+  <p class="skip">The command-line version of CoCo isn&rsquo;t needed today. We&rsquo;re working from the desktop app.</p>
+</div>
+
+<h2 id="test">The 30-second test</h2>
+
+<p>In the CoCo Desktop chat box, type:</p>
+
+<pre><code>What Snowflake account, user and role am I connected as?</code></pre>
+
+<p>If it answers with your trial account and <code>ACCOUNTADMIN</code>, you&rsquo;re set. That&rsquo;s everything.</p>
+
+<div class="warn">
+  <p><strong>If you see this, stop and flag it &mdash; don&rsquo;t try to fix it:</strong></p>
+  <p style="margin:8px 0;"><code>Access denied for trial accounts</code></p>
+  <p>It means AI features need switching on for your account. It&rsquo;s a known thing, it is <em>not</em> something you&rsquo;ve done wrong, and it takes us a minute to sort. Just show one of us the screen.</p>
+</div>
+
+<div class="ask">
+  <h2>Stuck on anything at all?</h2>
+  <p>Grab <strong>Matthew Zele</strong> or anyone from the Snowflake and InterWorks team on the floor, or <strong>Brian Orloff</strong> at the front. No need to wait politely &mdash; we&rsquo;d far rather sort it now than have you watching the lab instead of doing it.</p>
+</div>
+
+<div class="foot">
+  <p><strong>Art of the Possible</strong> &mdash; AI Hands-On Workshop &middot; InterWorks &amp; Snowflake</p>
+  <p>Thursday 29 October 2026 &middot; WeWork Perth CBD, Central Park Tower, 152 St Georges Terrace</p>
+</div>
+
+</body>
+</html>
